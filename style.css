@@ -1,5 +1,6 @@
 html, body {
   height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
 }
@@ -9,6 +10,19 @@ html, body {
   height: 100%;
   width: 50%;
   float: left;
+}
+.weather-box {
+  height: 100%;
+  width: 50%;
+  float: right;
+  text-align: center;
+}
+.locale {
+  font-size: 30px;
+  font-weight: bold;
+}
+.temps, .sunrise, .sunset {
+  font-weight: bold;
 }
 .controls {
   margin-top: 10px;

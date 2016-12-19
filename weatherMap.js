@@ -20,7 +20,6 @@ function initAutocomplete() {
   // more details for that place.
   searchBox.addListener('places_changed', function() {
     var places = searchBox.getPlaces();
-    console.log("Places", places);
 
     if (places.length == 0) {
       return;
@@ -40,6 +39,8 @@ function initAutocomplete() {
         console.log("Returned place contains no geometry");
         return;
       }
+      getWeather(place.formatted_address);
+      $('.locale').text(place.name);
       var icon = {
         url: place.icon,
         size: new google.maps.Size(71, 71),
@@ -62,7 +63,6 @@ function initAutocomplete() {
       } else {
         bounds.extend(place.geometry.location);
       }
-      getWeather(place.name);
     });
     map.fitBounds(bounds);
   });
@@ -84,12 +84,19 @@ function addIcon(weather) {
 }
 
 function iconGen(weather) {
+	console.log(weather);
 	var weather = weather.toLowerCase();
 	switch (weather) {
 	  case 'drizzle':
 	    addIcon(weather)
 	    break;
 	  case 'clouds':
+	    addIcon(weather)
+	    break;
+	  case 'fog':
+	    addIcon(weather)
+	    break;
+	  case 'haze':
 	    addIcon(weather)
 	    break;
 	  case 'rain':
@@ -121,7 +128,6 @@ function getWeather(city) {
 
 	$.getJSON(weatherApiLink, function(response) {
 	  // need some error handling...
-	  $('.locale').text(city);
 	  var theWeather = response.weather[0].main;
 	  iconGen(theWeather);
 	  // weatherPhoto(theWeather);
@@ -179,3 +185,13 @@ function getWeather(city) {
 	  $('.sun-data').removeClass('hide');
 	  });
 }
+
+// to do
+
+// improve data with country code
+// if searching, say, a bar with name of a city, will return that cities data
+// or if search london ontario, will return london UK
+// proper time zones
+// if not city, still need to return something
+// add css
+// idea: find language of searched country, return translated data (and can toggle lang)
