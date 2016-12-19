@@ -20,6 +20,7 @@ function initAutocomplete() {
   // more details for that place.
   searchBox.addListener('places_changed', function() {
     var places = searchBox.getPlaces();
+    console.log("Places", places);
 
     if (places.length == 0) {
       return;
@@ -34,6 +35,7 @@ function initAutocomplete() {
     // For each place, get the icon, name and location.
     var bounds = new google.maps.LatLngBounds();
     places.forEach(function(place) {
+    console.log("Place", place);
       if (!place.geometry) {
         console.log("Returned place contains no geometry");
         return;
@@ -60,7 +62,120 @@ function initAutocomplete() {
       } else {
         bounds.extend(place.geometry.location);
       }
+      getWeather(place.name);
     });
     map.fitBounds(bounds);
   });
+}
+
+
+function addIcon(weather) {
+// for loop to add hide to all div icons children
+// addIcon used only in iconGen
+	var div = document.getElementById('icons');
+	var divChildren = div.childNodes; // get an array of child nodes
+
+	for (var i=0; i<divChildren.length; i++) {
+	    divChildren[i].className += " hide";
+	}
+	if ($('div.' + weather).hasClass('hide')) {
+	  $('div.' + weather).removeClass('hide');
+	}
+}
+
+function iconGen(weather) {
+	var weather = weather.toLowerCase();
+	switch (weather) {
+	  case 'drizzle':
+	    addIcon(weather)
+	    break;
+	  case 'clouds':
+	    addIcon(weather)
+	    break;
+	  case 'rain':
+	    addIcon(weather)
+	    break;
+	  case 'snow':
+	    addIcon(weather)
+	    break;
+	  case 'clear':
+	    addIcon(weather)
+	    break;
+	  case 'mist':
+	    addIcon(weather)
+	    break;
+	  case 'thunderstorm':
+	    addIcon(weather)
+	    break;
+	  default:
+	    console.log("defaulting");
+	    $('div.clouds').removeClass('hide');
+	}
+}
+
+function getWeather(city) {
+	console.log(city);
+
+	var weatherKey = "3d116075e0fe88576d7d105ffb94897e";
+	var weatherApiLink = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + weatherKey;
+
+	$.getJSON(weatherApiLink, function(response) {
+	  // need some error handling...
+	  $('.locale').text(city);
+	  var theWeather = response.weather[0].main;
+	  iconGen(theWeather);
+	  // weatherPhoto(theWeather);
+
+	  var theDescription = response.weather[0].description;
+	  function capitalizeFirst(string) {
+	      var newDesc = string.charAt(0).toUpperCase() + string.slice(1);
+	      $('.detail-description').text(newDesc);
+	  }
+	  capitalizeFirst(theDescription);
+
+	  var tempCel = ((response.main.temp - 273.15).toFixed(2) + " °C");
+	  var tempFar = ((( response.main.temp - 273.15) * 9/5) + 32).toFixed(2) + " °F";
+	  //countries where farhenheit
+	  // if (country === "US" ||
+	  //     country === "BZ" ||
+	  //     country === "KY" ||
+	  //     country === "GU" ||
+	  //     country === "PR" ||
+	  //     country === "PW" ||
+	  //     country === "VA") 
+	  // {
+	  //   $('.temps').text(tempFar);  
+	  // }
+	  // else {
+	  //   $('.temps').text(tempCel);
+	  // }
+	  $('.temps').text(tempCel);
+	  $('.weather-data').removeClass('hide');
+	  // ***
+	  // sun-data
+	  // ***
+	  var parsedSunriseHours = new Date(response.sys.sunrise*1000).getHours();
+	    if (parsedSunriseHours < 10) {
+	      parsedSunriseHours = "0" + parsedSunriseHours;
+	    }
+	  var parsedSunriseMins = new Date(response.sys.sunrise*1000).getMinutes();
+	    if (parsedSunriseMins < 10) {
+	      parsedSunriseMins = "0" + parsedSunriseMins;
+	    }
+	  var parsedSunsetHours = new Date(response.sys.sunset*1000).getHours();
+	    if (parsedSunsetHours < 10) {
+	      parsedSunsetHours = "0" + parsedSunsetHours;
+	    }
+	  var parsedSunsetMins = new Date(response.sys.sunset*1000).getMinutes();
+	    if (parsedSunsetMins < 10) {
+	      parsedSunsetMins = "0" + parsedSunsetMins;
+	    }
+	  var formatSunrise = parsedSunriseHours + ":" + parsedSunriseMins;
+	  var formatSunset = parsedSunsetHours + ":" + parsedSunsetMins; 
+	  // Next: Make accept other time zones
+
+	  $('.sunrise').text(formatSunrise);
+	  $('.sunset').text(formatSunset);
+	  $('.sun-data').removeClass('hide');
+	  });
 }

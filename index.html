@@ -21,6 +21,46 @@
 	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
   <div id="map"></div>
 
+  <div class="weather-box">
+    <p><span class="locale"></span></p>
+    <div id="icons">
+      <div class="drizzle hide">
+        <p><span class="detail-description"></span></p>
+        <i class="fa fa-tint" aria-hidden="true"></i>
+      </div>
+      <div class="clouds hide">
+        <p><span class="detail-description"></span></p>
+        <i class="fa fa-cloud" aria-hidden="true"></i>
+      </div>
+      <div class="clear hide">
+        <p><span class="detail-description"></span></p>
+        <i class="fa fa-sun-o" aria-hidden="true"></i>
+      </div>
+      <div class="rain hide">
+        <p><span class="detail-description"></span></p>
+        <i class="fa fa-tint" aria-hidden="true"></i>
+      </div>
+      <div class="snow hide">
+        <p><span class="detail-description"></span></p>
+        <i class="fa fa-snowflake-o" aria-hidden="true"></i>
+      </div>
+      <div class="mist hide">
+        <p><span class="detail-description"></span></p>
+        <i class="fa fa-shower" aria-hidden="true"></i>
+      </div>
+      <div class="thunderstorm hide">
+        <p><span class="detail-description"></span></p>
+        <i class="fa fa-bolt" aria-hidden="true"></i>
+      </div>
+    </div>
+    <div class="weather-data hide">
+      <p>Tempurature: <span class="temps"></span></p>
+    </div>
+    <div class="sun-data hide">
+      <p>Sunrise: <span class="sunrise"></span> (EST)</p>
+      <p>Sunset: <span class="sunset"></span> (EST)</p>
+    </div>
+
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCx1pxNKwERZnCy3-gITUxYmPTsOM-YH_8&libraries=places&callback=initAutocomplete"
    async defer></script>
   <script src="weatherMap.js"></script>
