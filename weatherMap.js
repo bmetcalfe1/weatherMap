@@ -71,17 +71,6 @@ function onLoad() {
 	});
 }
 
-function getLocation() {
-	navigator.geolocation.getCurrentPosition(showLocation);
-}
-
-function showLocation( position ) {
-	var latty = position.coords.latitude;
-	var longy = position.coords.longitude;
-	var newLocal = {lat: latty, lng: longy};
-	return newLocal;
-}
-
 function addIcon(weather) {
 	var div = document.getElementById('icons');
 	var divChildren = div.childNodes; // get an array of child nodes
@@ -143,7 +132,6 @@ function getWeather(city) {
 	  // need some error handling...
 	  var theWeather = response.weather[0].main;
 	  iconGen(theWeather);
-	  // weatherPhoto(theWeather);
 
 	  var theDescription = response.weather[0].description;
 	  function capitalizeFirst(string) {
@@ -199,9 +187,11 @@ function getWeather(city) {
 	  });
 }
 
+
 // to do
 
 // make search box start left. right now noticeable lag
 //geolocation
+// celcius farhenheit
 // proper time zones
 // idea: find language of searched country, return translated data (and can toggle lang)
